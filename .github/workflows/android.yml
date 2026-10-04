@@ -69,18 +69,53 @@ jobs:
           path: app/build/reports/lint-results-debug.html
           if-no-files-found: ignore
 
+  # Publishes every push (and v* tag) as a GitHub Release with direct .apk links.
+  # Stable links to the newest build:
+  #   https://github.com/<owner>/<repo>/releases/latest/download/WebServ.apk
+  #   https://github.com/<owner>/<repo>/releases/latest/download/WebServ-debug.apk
   release:
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: github.event_name == 'push'
     needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
+      - uses: actions/checkout@v4
+
       - uses: actions/download-artifact@v4
         with:
           name: webserv-apks-${{ github.run_number }}
           path: apks
+
+      - name: Prepare release files
+        id: prep
+        run: |
+          . ./version.properties
+          VERSION="${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            TAG="${GITHUB_REF#refs/tags/}"
+          else
+            TAG="v${VERSION}-build.${GITHUB_RUN_NUMBER}"
+          fi
+          mkdir -p out
+          find apks -name '*.apk' -exec cp {} out/ \;
+          cp out/*-release.apk out/WebServ.apk
+          cp out/*-debug.apk out/WebServ-debug.apk
+          ls -l out
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
       - uses: softprops/action-gh-release@v2
         with:
-          files: apks/**/*.apk
+          tag_name: ${{ steps.prep.outputs.tag }}
+          target_commitish: ${{ github.sha }}
+          name: WebServ ${{ steps.prep.outputs.version }} (build ${{ github.run_number }})
+          make_latest: "true"
           generate_release_notes: true
+          body: |
+            Direct downloads:
+            - WebServ.apk — release build, app id `com.coolcupman.webserv`
+            - WebServ-debug.apk — debug build, app id `com.coolcupman.webserv.debug` (installs side by side)
+
+            Built from ${{ github.sha }} on ${{ github.ref_name }}.
+          files: out/*.apk

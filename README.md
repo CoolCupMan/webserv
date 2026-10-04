@@ -54,9 +54,14 @@ APK names include all of it: `webserv-<appId>-<version>-<buildType>.apk`.
 
 ## Getting the APK
 
-Every push builds debug and release APKs in GitHub Actions
-(**Actions → Build APK → Artifacts**). Pushing a tag `v*` (e.g. `v1.0.0`) also publishes them on a
-GitHub Release. Run the workflow manually to build a copy with a custom app ID suffix.
+Direct download of the newest build:
+
+- **Release:** https://github.com/CoolCupMan/webserv/releases/latest/download/WebServ.apk
+- **Debug** (installs side by side): https://github.com/CoolCupMan/webserv/releases/latest/download/WebServ-debug.apk
+
+Every push builds both APKs in GitHub Actions and publishes them as a GitHub Release
+(tag `v<version>-build.<run>`, or the pushed `v*` tag). They are also kept as workflow artifacts.
+Run the workflow manually to build a copy with a custom app ID suffix.
 
 Install: copy the APK to the phone and open it (allow "install unknown apps" for your file
 manager/browser), or `adb install webserv-....apk`.
