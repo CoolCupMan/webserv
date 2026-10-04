@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_back" android:title="@string/back"
+        android:icon="@android:drawable/ic_media_rew" android:showAsAction="ifRoom" />
+    <item android:id="@+id/action_reload" android:title="@string/reload"
+        android:icon="@android:drawable/ic_popup_sync" android:showAsAction="ifRoom" />
+    <item android:id="@+id/action_forward" android:title="@string/forward" />
+    <item android:id="@+id/action_home" android:title="@string/home" />
+    <item android:id="@+id/action_desktop" android:title="@string/desktop_mode" android:checkable="true" />
+    <item android:id="@+id/action_favorite" android:title="@string/favorite" android:checkable="true" />
+    <item android:id="@+id/action_copy" android:title="@string/copy_url" />
+    <item android:id="@+id/action_external" android:title="@string/open_external" />
+    <item android:id="@+id/action_clear_session" android:title="@string/clear_session" />
+</menu>

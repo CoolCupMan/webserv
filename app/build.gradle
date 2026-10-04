@@ -1,0 +1,89 @@
+plugins {
+    id "com.android.application"
+}
+
+// ---- Version -------------------------------------------------------------
+def versionProps = new Properties()
+file("../version.properties").withInputStream { versionProps.load(it) }
+def vMajor = versionProps.getProperty("VERSION_MAJOR").toInteger()
+def vMinor = versionProps.getProperty("VERSION_MINOR").toInteger()
+def vPatch = versionProps.getProperty("VERSION_PATCH").toInteger()
+// Optional CI build number, shown in the version name only (keeps versionCode monotonic per release).
+def buildNumber = (project.findProperty("buildNumber") ?: System.getenv("BUILD_NUMBER") ?: "").toString()
+def appVersionCode = vMajor * 10000 + vMinor * 100 + vPatch
+def appVersionName = "${vMajor}.${vMinor}.${vPatch}" + (buildNumber ? "+${buildNumber}" : "")
+
+// ---- Application id ------------------------------------------------------
+// Base id is unique so the app never collides with other packages.
+// Pass -PappIdSuffix=.lab (for example) to build an extra copy that installs side by side,
+// with its own cookies, saved hosts and trusted certificates.
+def baseAppId = "com.coolcupman.webserv"
+def extraSuffix = (project.findProperty("appIdSuffix") ?: "").toString()
+if (extraSuffix && !(extraSuffix ==~ /^(\.[a-zA-Z][a-zA-Z0-9_]*)+$/)) {
+    throw new GradleException("appIdSuffix must look like '.name' (got '${extraSuffix}')")
+}
+def labelSuffix = extraSuffix ? " (${extraSuffix.substring(1)})" : ""
+
+// ---- Release signing (optional, from environment) ------------------------
+def ksFile = System.getenv("WEBSERV_KEYSTORE_FILE")
+def hasReleaseKey = ksFile && file(ksFile).exists()
+
+android {
+    namespace "com.coolcupman.webserv"
+    compileSdk 35
+
+    defaultConfig {
+        applicationId baseAppId
+        minSdk 26
+        targetSdk 35
+        versionCode appVersionCode
+        versionName appVersionName
+        applicationIdSuffix extraSuffix ?: null
+        resValue "string", "app_name", "WebServ" + labelSuffix
+    }
+
+    signingConfigs {
+        if (hasReleaseKey) {
+            release {
+                storeFile file(ksFile)
+                storePassword System.getenv("WEBSERV_KEYSTORE_PASSWORD")
+                keyAlias System.getenv("WEBSERV_KEY_ALIAS")
+                keyPassword System.getenv("WEBSERV_KEY_PASSWORD")
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            // Without a release key, fall back to the debug key so the APK is still installable.
+            signingConfig hasReleaseKey ? signingConfigs.release : signingConfigs.debug
+        }
+        debug {
+            // Debug installs next to release: com.coolcupman.webserv.debug
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+            resValue "string", "app_name", "WebServ Debug" + labelSuffix
+        }
+    }
+
+    buildFeatures {
+        buildConfig true
+        resValues true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    lint {
+        abortOnError false
+    }
+
+    applicationVariants.configureEach { variant ->
+        variant.outputs.configureEach {
+            outputFileName = "webserv-${variant.applicationId}-${variant.versionName}-${variant.buildType.name}.apk"
+        }
+    }
+}

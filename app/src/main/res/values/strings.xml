@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- app_name is generated in app/build.gradle so each install variant gets its own label. -->
+    <string name="input_label">Web interface address</string>
+    <string name="input_hint">192.168.1.1, router.lan, nas:5001, fe80::1</string>
+    <string name="scheme_auto">Auto</string>
+    <string name="scheme_https">HTTPS</string>
+    <string name="scheme_http">HTTP</string>
+    <string name="open">Open</string>
+    <string name="scan_ports">Scan ports</string>
+    <string name="gateway">Gateway</string>
+    <string name="saved_hosts">Favourites and recent</string>
+    <string name="hosts_empty">Type an IP address or hostname above and tap Open. Use Scan ports to find which management interfaces a device offers (router, firewall, Proxmox, Grafana, mongo-express …). Long-press an entry to rename, favourite or delete it.</string>
+    <string name="footer_version">v%1$s · %2$s</string>
+    <string name="invalid_address">Enter an IP address, hostname or http(s) URL</string>
+    <string name="no_gateway">No default gateway found on the current network</string>
+
+    <string name="scan_title">Open ports on %1$s</string>
+    <string name="scan_nothing">No known web management port answered. The device may use a different port: type it as host:port.</string>
+    <string name="scan_failed">Scan failed</string>
+
+    <string name="edit_in_field">Edit address</string>
+    <string name="rename">Rename</string>
+    <string name="favorite">Favourite</string>
+    <string name="unfavorite">Remove from favourites</string>
+    <string name="delete">Delete</string>
+    <string name="saved_favorite">Added to favourites</string>
+    <string name="removed_favorite">Removed from favourites</string>
+    <string name="done">Done</string>
+
+    <string name="about">About</string>
+    <string name="about_text">Version %1$s (code %2$d)\nApp ID: %3$s\nBuild: %4$s\n\nOpens the web GUI of routers, access points, firewalls, hypervisors and server tools (Grafana, mongo-express, Proxmox, Portainer …) by IP address or DNS name.\n\nSelf-signed certificates are pinned per host after you accept them. Saved logins are encrypted with a key held in the Android Keystore.</string>
+    <string name="clear_certs">Forget trusted certificates</string>
+    <string name="clear_logins">Forget saved logins</string>
+    <string name="clear_cookies">Clear cookies and site data</string>
+    <string name="confirm_clear_certs">Forget %1$d trusted certificate(s)? You will be asked again next time.</string>
+    <string name="confirm_clear_logins">Delete %1$d saved login(s)?</string>
+    <string name="confirm_clear_cookies">Sign out of all web interfaces and delete stored site data?</string>
+
+    <string name="back">Back</string>
+    <string name="forward">Forward</string>
+    <string name="reload">Reload</string>
+    <string name="home">Start page</string>
+    <string name="desktop_mode">Desktop site</string>
+    <string name="copy_url">Copy URL</string>
+    <string name="copied">URL copied</string>
+    <string name="open_external">Open in browser</string>
+    <string name="no_browser">No browser app installed</string>
+    <string name="clear_session">Sign out (clear session)</string>
+    <string name="session_cleared">Session cleared</string>
+    <string name="retry">Retry</string>
+    <string name="try_http">Try HTTP</string>
+    <string name="try_https">Try HTTPS</string>
+    <string name="https_failed_trying_http">HTTPS not answering, trying HTTP…</string>
+    <string name="load_error">Could not reach %1$s\n\n%2$s\n\nCheck that the phone is on the same network or VPN as the device, and that the address and port are right.</string>
+
+    <string name="cert_title">Untrusted certificate</string>
+    <string name="cert_intro">%1$s presented a certificate Android does not trust. This is normal for routers, firewalls and hypervisors with self-signed certificates.</string>
+    <string name="cert_problem">Problem:</string>
+    <string name="cert_subject">Subject:</string>
+    <string name="cert_issuer">Issuer:</string>
+    <string name="cert_valid">Valid:</string>
+    <string name="cert_advice">Only continue if you expect this device here. "Always" pins this exact certificate for this host; you will be asked again if it changes.</string>
+    <string name="cert_trust_always">Always</string>
+    <string name="cert_trust_once">This time</string>
+    <string name="ssl_untrusted">not issued by a trusted authority</string>
+    <string name="ssl_idmismatch">name does not match the address</string>
+    <string name="ssl_expired">expired</string>
+    <string name="ssl_notyetvalid">not yet valid</string>
+    <string name="ssl_date_invalid">invalid date</string>
+    <string name="ssl_invalid">invalid</string>
+
+    <string name="auth_title">Sign in to %1$s</string>
+    <string name="auth_realm">Realm: %1$s</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="remember_login">Remember (encrypted on this device)</string>
+    <string name="login">Sign in</string>
+
+    <string name="downloading">Downloading…</string>
+    <string name="download_failed">Download of %1$s failed: %2$s</string>
+    <string name="download_done_title">Download complete</string>
+    <string name="download_done">%1$s saved to Downloads/WebServ</string>
+    <string name="no_app_to_open">No app can open this file</string>
+    <string name="no_file_picker">No file picker available</string>
+</resources>

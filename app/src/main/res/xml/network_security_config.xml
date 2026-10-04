@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Admin interfaces on LANs are often plain HTTP, so cleartext is allowed.
+  User-installed CAs are trusted too, so a home/corporate CA can make certificate prompts disappear.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>
